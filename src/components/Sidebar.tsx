@@ -1,4 +1,4 @@
-import { LayoutDashboard, BarChart3, Users, Settings, ChevronLeft, ChevronRight, Package, ShoppingCart, Percent, BookOpen } from 'lucide-react';
+import { LayoutDashboard, BarChart3, Users, Settings, ChevronLeft, ChevronRight, Package, ShoppingCart, Percent } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
 
@@ -17,7 +17,6 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
     { name: 'Products', id: 'product', icon: Package },
     { name: 'Orders', id: 'orders', icon: ShoppingCart },
     { name: 'Customers', id: 'customers', icon: Users },
-    { name: 'AGY Guide', id: 'guide', icon: BookOpen },
     { name: 'Settings', id: 'settings', icon: Settings },
   ];
 

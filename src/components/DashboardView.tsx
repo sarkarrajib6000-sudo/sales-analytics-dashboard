@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { KpiCard } from './KpiCard';
 import { PivotTable } from './PivotTable';
+import { InsightsPanel } from './InsightsPanel';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { dbService } from '../lib/dbService';
 import { TrendingUp, BarChart3, Wallet, ShoppingBag } from 'lucide-react';
@@ -97,9 +98,14 @@ export function DashboardView({ orders }: DashboardViewProps) {
         </div>
       </div>
 
-      {/* Revenue Section */}
-      <div>
-        <PivotTable orders={orders} />
+      {/* Pivot Table & AI Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <PivotTable orders={orders} />
+        </div>
+        <div className="lg:col-span-1">
+          <InsightsPanel />
+        </div>
       </div>
     </div>
   );

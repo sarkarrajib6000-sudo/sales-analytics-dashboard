@@ -11,7 +11,6 @@ import { CustomersView } from './components/CustomersView';
 import { SettingsView } from './components/SettingsView';
 import { Layout } from './components/Layout';
 import { ViewSkeleton } from './components/SkeletonLoader';
-import { AntigravityGuideView } from './components/AntigravityGuideView';
 import { dbService, isOrderInDateRange } from './lib/dbService';
 
 export default function App() {
@@ -132,10 +131,6 @@ export default function App() {
 
             {activeTab === 'settings' && (
               <SettingsView />
-            )}
-
-            {activeTab === 'guide' && (
-              <AntigravityGuideView />
             )}
           </>
         )}

@@ -11,7 +11,8 @@ export function SettingsView() {
   const [customers, setCustomers] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [storageMetrics, setStorageMetrics] = useState({ sizeKB: 0, itemsCount: 0 });
-  
+  const [apiKey, setApiKey] = useState('');
+
   // CRUD Modal Form states
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
@@ -59,6 +60,7 @@ export function SettingsView() {
     setCustomers(dbService.getCustomers());
     setProducts(dbService.getProducts());
     setStorageMetrics(dbService.getStorageMetrics());
+    setApiKey(localStorage.getItem('gemini_api_key') || '');
   };
 
   useEffect(() => {
@@ -66,6 +68,14 @@ export function SettingsView() {
     window.addEventListener('sales_db_update', refreshData);
     return () => window.removeEventListener('sales_db_update', refreshData);
   }, []);
+
+  const handleSaveApiKey = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem('gemini_api_key', apiKey.trim());
+    setFormSuccess('Gemini API key updated successfully.');
+    window.dispatchEvent(new Event('sales_db_update'));
+    setTimeout(() => setFormSuccess(''), 3000);
+  };
 
   const handleResetDB = () => {
     if (confirm('Are you sure you want to reset the client database to factory default values? All custom records will be lost.')) {
@@ -186,20 +196,19 @@ export function SettingsView() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in text-slate-800 dark:text-slate-100">
-      
+    <div className="space-y-8 animate-fade-in text-slate-800 dark:text-slate-100 text-left">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-            <Database className="text-indigo-600 dark:text-indigo-400" size={28} />
-            Database & System Console
+          <h2 className="text-2xl font-black text-slate-905 dark:text-white tracking-tight flex items-center gap-2.5">
+            <Database className="text-indigo-650 dark:text-indigo-400" size={26} />
+            Data Operations & Settings
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Directly modify backend records, run SQL-like sandbox queries, and audit system environment variables.</p>
+          <p className="text-sm text-slate-550 dark:text-slate-400 mt-1">Control active local database instances, seed demo datasets, run custom queries, or connect Gemini AI models.</p>
         </div>
         <button 
           onClick={handleResetDB}
-          className="flex items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/30 dark:hover:bg-rose-950/60 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-sm font-semibold rounded-lg transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 dark:bg-rose-955/35 dark:hover:bg-rose-950/60 border border-rose-250 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-sm font-semibold rounded-lg transition-colors cursor-pointer"
         >
           <RefreshCw size={16} />
           Reset to Factory Defaults
@@ -214,38 +223,79 @@ export function SettingsView() {
         </div>
       )}
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-            <HardDrive size={24} />
+      {/* Stats and credentials row */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Side: Stats (8 cols) */}
+        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white/80 dark:bg-slate-900/85 backdrop-blur-md p-6 rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+              <HardDrive size={22} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-wider">Database Footprint</p>
+              <p className="text-xl font-extrabold mt-0.5">{storageMetrics.sizeKB} KB</p>
+              <p className="text-[9px] text-slate-400 mt-0.5">Isolated LocalStorage volume</p>
+            </div>
           </div>
-          <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase">Database Footprint</p>
-            <p className="text-xl font-bold">{storageMetrics.sizeKB} KB</p>
-            <p className="text-[10px] text-slate-400">Isolated LocalStorage volume</p>
+
+          <div className="bg-white/80 dark:bg-slate-900/85 backdrop-blur-md p-6 rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+              <Database size={22} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-wider">Total Records</p>
+              <p className="text-xl font-extrabold mt-0.5">{storageMetrics.itemsCount}</p>
+              <p className="text-[9px] text-slate-400 mt-0.5">Across 6 aggregated indexes</p>
+            </div>
+          </div>
+
+          <div className="bg-white/80 dark:bg-slate-900/85 backdrop-blur-md p-6 rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+              <Cpu size={22} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-wider">API Read Latency</p>
+              <p className="text-xl font-extrabold mt-0.5">~0.15ms</p>
+              <p className="text-[9px] text-slate-400 mt-0.5">High performance client sync</p>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
-            <Database size={24} />
-          </div>
+        {/* Right Side: Gemini credentials config (4 cols) */}
+        <div className="lg:col-span-4 bg-white/80 dark:bg-slate-900/85 backdrop-blur-md p-6 rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm flex flex-col justify-between">
           <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase">Total Relational Records</p>
-            <p className="text-xl font-bold">{storageMetrics.itemsCount}</p>
-            <p className="text-[10px] text-slate-400">Across 6 aggregated indexes</p>
+            <div className="flex items-center gap-2 pb-3.5 border-b border-slate-100 dark:border-slate-800/50 mb-4">
+              <Shield className="text-indigo-500" size={17} />
+              <h3 className="text-sm font-extrabold text-slate-850 dark:text-white">Gemini Credentials</h3>
+            </div>
+            <p className="text-[11px] text-slate-450 dark:text-slate-450 leading-relaxed mb-4">
+              Authorize AI-powered business diagnostics. Your API Key is stored safely client-side in LocalStorage.
+            </p>
+            <form onSubmit={handleSaveApiKey} className="space-y-3">
+              <input 
+                type="password" 
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="Enter Gemini API Key..."
+                className="w-full px-3 py-2 text-xs bg-slate-50/50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all font-semibold"
+              />
+              <button 
+                type="submit"
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-xl font-bold text-xs tracking-wide shadow-md hover:shadow-indigo-500/10 transition-all cursor-pointer border border-transparent"
+              >
+                SAVE CREDENTIALS
+              </button>
+            </form>
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
-            <Cpu size={24} />
-          </div>
-          <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase">API Read Latency</p>
-            <p className="text-xl font-bold">~0.15ms</p>
-            <p className="text-[10px] text-slate-400">High performance client sync</p>
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between text-[10px] mt-4">
+            <span className="text-slate-400">Status:</span>
+            {apiKey.trim() ? (
+              <span className="text-emerald-605 dark:text-emerald-400 font-bold flex items-center gap-1">
+                <CheckCircle2 size={10} /> Active Connection
+              </span>
+            ) : (
+              <span className="text-amber-500 font-bold">Key Unconfigured</span>
+            )}
           </div>
         </div>
       </div>
@@ -254,7 +304,7 @@ export function SettingsView() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* SQL Sandbox - Left 5 cols */}
-        <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-white/80 dark:bg-slate-900/85 backdrop-blur-md p-6 rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Terminal className="text-indigo-600 dark:text-indigo-400" size={20} />
@@ -383,7 +433,7 @@ export function SettingsView() {
         <div className="lg:col-span-7 space-y-6">
           
           {/* Action Center Card */}
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="bg-white/80 dark:bg-slate-900/85 backdrop-blur-md p-6 rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm">
             <h3 className="text-base font-semibold mb-2">Relational CRUD Store</h3>
             <p className="text-xs text-slate-400 mb-6">Perform write operations directly on the database store. Changes immediately cascade into analytical models.</p>
             
@@ -415,7 +465,7 @@ export function SettingsView() {
           </div>
 
           {/* Database Table Diagnostics Row */}
-          <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div className="bg-white/80 dark:bg-slate-900/85 backdrop-blur-md rounded-2xl border border-slate-205/70 dark:border-slate-800/80 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-slate-100 dark:border-slate-800">
               <h3 className="text-base font-semibold">Indexed Tables Diagnostic Output</h3>
               <p className="text-xs text-slate-400">Database rows listing for complete operational transparency.</p>
