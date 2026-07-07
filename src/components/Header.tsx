@@ -1,6 +1,7 @@
 import { Moon, Sun, Search, Bell, Download, LogOut } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { DateRangePicker } from './DateRangePicker';
+import { dbService } from '../lib/dbService';
 
 interface HeaderProps {
   onExport: () => void;

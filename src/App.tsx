@@ -9,6 +9,7 @@ import { ProductsView } from './components/ProductsView';
 import { OrdersView } from './components/OrdersView';
 import { CustomersView } from './components/CustomersView';
 import { SettingsView } from './components/SettingsView';
+import { PredictionsView } from './components/PredictionsView';
 import { Layout } from './components/Layout';
 import { ViewSkeleton } from './components/SkeletonLoader';
 import { dbService, isOrderInDateRange } from './lib/dbService';
@@ -131,6 +132,10 @@ export default function App() {
 
             {activeTab === 'settings' && (
               <SettingsView />
+            )}
+
+            {activeTab === 'predictions' && (
+              <PredictionsView />
             )}
           </>
         )}

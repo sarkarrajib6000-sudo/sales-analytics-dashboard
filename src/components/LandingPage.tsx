@@ -126,7 +126,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 
                 <button
                   onClick={handleContinueAsGuest}
-                  className="text-slate-400 hover:text-white font-bold text-sm px-4 py-3 hover:underline cursor-pointer"
+                  className="border border-white/10 hover:bg-white/5 text-slate-300 hover:text-white px-8 py-4 rounded-xl font-bold text-base flex items-center justify-center transition-all shadow-md hover:-translate-y-0.5 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 focus:ring-indigo-500 cursor-pointer"
                 >
                   Enter as Guest
                 </button>
