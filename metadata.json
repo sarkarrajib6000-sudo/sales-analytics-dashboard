@@ -1,0 +1,6 @@
+{
+  "name": "Sales Analytics Dashboard",
+  "description": "A professional, modern SaaS-style dashboard for analyzing sales data, including trends, product performance, and regional insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
