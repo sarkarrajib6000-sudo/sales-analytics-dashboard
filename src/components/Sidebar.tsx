@@ -11,14 +11,70 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   const menuItems = [
-    { name: 'Dashboard', id: 'dashboard', icon: LayoutDashboard, activeClass: "bg-indigo-50/50 dark:bg-indigo-950/20 text-indigo-650 dark:text-indigo-400 border-indigo-600" },
-    { name: 'Revenue', id: 'revenue', icon: BarChart3, activeClass: "bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-650 dark:text-emerald-400 border-emerald-600" },
-    { name: 'Profit', id: 'profit', icon: Percent, activeClass: "bg-fuchsia-50/50 dark:bg-fuchsia-955/20 text-fuchsia-605 dark:text-fuchsia-400 border-fuchsia-600" },
-    { name: 'Products', id: 'product', icon: Package, activeClass: "bg-rose-50/50 dark:bg-rose-955/20 text-rose-650 dark:text-rose-450 border-rose-600" },
-    { name: 'Orders', id: 'orders', icon: ShoppingCart, activeClass: "bg-amber-50/50 dark:bg-amber-950/20 text-amber-650 dark:text-amber-450 border-amber-600" },
-    { name: 'Customers', id: 'customers', icon: Users, activeClass: "bg-sky-50/50 dark:bg-sky-950/20 text-sky-655 dark:text-sky-400 border-sky-600" },
-    { name: 'AI Forecast', id: 'predictions', icon: Brain, activeClass: "bg-cyan-50/50 dark:bg-cyan-955/20 text-cyan-650 dark:text-cyan-405 border-cyan-600" },
-    { name: 'Settings', id: 'settings', icon: Settings, activeClass: "bg-purple-50/50 dark:bg-purple-950/20 text-purple-650 dark:text-purple-400 border-purple-600" },
+    { 
+      name: 'Dashboard', 
+      id: 'dashboard', 
+      icon: LayoutDashboard,
+      activeClass: "bg-indigo-500/10 dark:bg-indigo-500/5 text-indigo-650 dark:text-indigo-400",
+      iconClass: "bg-indigo-100 dark:bg-indigo-950/40 border-indigo-200/20 dark:border-indigo-800/20 text-indigo-600 dark:text-indigo-400",
+      indicatorClass: "bg-indigo-600 dark:bg-indigo-400 shadow-[0_0_10px_#6366f1]"
+    },
+    { 
+      name: 'Revenue', 
+      id: 'revenue', 
+      icon: BarChart3,
+      activeClass: "bg-emerald-500/10 dark:bg-emerald-500/5 text-emerald-650 dark:text-emerald-400",
+      iconClass: "bg-emerald-100 dark:bg-emerald-950/40 border-emerald-200/20 dark:border-emerald-800/20 text-emerald-600 dark:text-emerald-400",
+      indicatorClass: "bg-emerald-600 dark:bg-emerald-400 shadow-[0_0_10px_#10b981]"
+    },
+    { 
+      name: 'Profit', 
+      id: 'profit', 
+      icon: Percent,
+      activeClass: "bg-fuchsia-500/10 dark:bg-fuchsia-500/5 text-fuchsia-650 dark:text-fuchsia-400",
+      iconClass: "bg-fuchsia-100 dark:bg-fuchsia-955/40 border-fuchsia-200/20 dark:border-fuchsia-800/20 text-fuchsia-600 dark:text-fuchsia-400",
+      indicatorClass: "bg-fuchsia-600 dark:bg-fuchsia-400 shadow-[0_0_10px_#d946ef]"
+    },
+    { 
+      name: 'Products', 
+      id: 'product', 
+      icon: Package,
+      activeClass: "bg-rose-500/10 dark:bg-rose-500/5 text-rose-650 dark:text-rose-450",
+      iconClass: "bg-rose-100 dark:bg-rose-955/40 border-rose-200/20 dark:border-rose-800/20 text-rose-600 dark:text-rose-400",
+      indicatorClass: "bg-rose-600 dark:bg-rose-400 shadow-[0_0_10px_#f43f5e]"
+    },
+    { 
+      name: 'Orders', 
+      id: 'orders', 
+      icon: ShoppingCart,
+      activeClass: "bg-amber-500/10 dark:bg-amber-500/5 text-amber-650 dark:text-amber-450",
+      iconClass: "bg-amber-100 dark:bg-amber-950/40 border-amber-200/20 dark:border-amber-800/20 text-amber-600 dark:text-amber-400",
+      indicatorClass: "bg-amber-600 dark:bg-amber-400 shadow-[0_0_10px_#f59e0b]"
+    },
+    { 
+      name: 'Customers', 
+      id: 'customers', 
+      icon: Users,
+      activeClass: "bg-sky-500/10 dark:bg-sky-500/5 text-sky-655 dark:text-sky-400",
+      iconClass: "bg-sky-100 dark:bg-sky-950/40 border-sky-200/20 dark:border-sky-800/20 text-sky-600 dark:text-sky-400",
+      indicatorClass: "bg-sky-600 dark:bg-sky-400 shadow-[0_0_10px_#0ea5e9]"
+    },
+    { 
+      name: 'AI Forecast', 
+      id: 'predictions', 
+      icon: Brain,
+      activeClass: "bg-cyan-500/10 dark:bg-cyan-500/5 text-cyan-650 dark:text-cyan-405",
+      iconClass: "bg-cyan-100 dark:bg-cyan-955/40 border-cyan-200/20 dark:border-cyan-800/20 text-cyan-600 dark:text-cyan-400",
+      indicatorClass: "bg-cyan-600 dark:bg-cyan-400 shadow-[0_0_10px_#06b6d4]"
+    },
+    { 
+      name: 'Settings', 
+      id: 'settings', 
+      icon: Settings,
+      activeClass: "bg-purple-500/10 dark:bg-purple-500/5 text-purple-650 dark:text-purple-400",
+      iconClass: "bg-purple-100 dark:bg-purple-950/40 border-purple-200/20 dark:border-purple-800/20 text-purple-600 dark:text-purple-400",
+      indicatorClass: "bg-purple-600 dark:bg-purple-400 shadow-[0_0_10px_#a855f7]"
+    },
   ];
 
   return (
@@ -56,16 +112,29 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
               key={item.name} 
               onClick={() => onTabChange && onTabChange(item.id)}
               className={cn(
-                "flex items-center w-full px-4 py-3 rounded-xl transition-all duration-205 cursor-pointer relative group text-sm font-medium",
+                "flex items-center w-full px-3 py-2.5 rounded-xl transition-all duration-250 cursor-pointer relative group text-sm font-medium hover:scale-[1.01] hover:-translate-y-[0.5px] border border-transparent",
                 isActive 
-                  ? `${item.activeClass} font-black border-l-4 shadow-xs`
-                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-800/40"
+                  ? `${item.activeClass} font-black shadow-xs border-slate-200/10 dark:border-slate-800/20`
+                  : "text-slate-500 dark:text-slate-450 hover:text-slate-850 dark:hover:text-slate-100 hover:bg-slate-50/70 dark:hover:bg-slate-800/40"
               )}
             >
-              <item.icon size={18} className={cn("transition-transform group-hover:scale-105 duration-200", isActive ? "" : "text-slate-400 dark:text-slate-500")} />
+              {/* Left Edge Indicator Pill */}
+              {isActive && (
+                <div className={cn("absolute left-0 w-1 h-6 rounded-r-full top-1/2 -translate-y-1/2", item.indicatorClass)} />
+              )}
+
+              {/* Tiled Icon Container */}
+              <div className={cn(
+                "p-2 rounded-xl border transition-all duration-200 flex items-center justify-center",
+                isActive
+                  ? item.iconClass
+                  : "bg-slate-50 dark:bg-slate-800/30 border-slate-200/10 dark:border-slate-800/10 text-slate-400 dark:text-slate-500 group-hover:bg-slate-100 dark:group-hover:bg-slate-850/60 group-hover:text-slate-700 dark:group-hover:text-slate-205"
+              )}>
+                <item.icon size={16} />
+              </div>
               
               {!collapsed && (
-                <span className="ml-3.5 tracking-wide">{item.name}</span>
+                <span className="ml-3 tracking-wide">{item.name}</span>
               )}
 
               {/* Hover tooltip when collapsed */}
@@ -92,4 +161,5 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
     </div>
   );
 }
+
 
